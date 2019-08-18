@@ -1,4 +1,10 @@
 #include <windows.h>
+#include <gl/GL.h>
+#pragma comment(lib, "opengl32.lib")
+//创建opengl渲染环境步骤：
+//1.选定像素格式
+//2.创建渲染环境
+//3.使渲染环境生效
 LRESULT CALLBACK GLWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
@@ -44,6 +50,20 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	HWND hwnd = CreateWindowEx(NULL, L"GLWindow", L"OpenGL Window", WS_OVERLAPPEDWINDOW,
 		100, 100, windowWidth, windowHeight,
 		NULL, NULL, hInstance, NULL);
+	HDC dc = GetDC(hwnd);
+	PIXELFORMATDESCRIPTOR pfd;
+	memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
+	pfd.nVersion = 1;
+	pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+	pfd.cColorBits = 32;//颜色缓冲区每像素占32 bit
+	pfd.cDepthBits = 24;//深度缓冲区每像素占24bit，这24bit表示浮点数
+	pfd.cStencilBits = 8;//蒙版缓冲区每像素占8bit
+	pfd.iPixelType = PFD_TYPE_RGBA;
+	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+	int pixelFormat = ChoosePixelFormat(dc, &pfd);//选择一种像素格式，windows会根据pfd从若干中像素格式中选出一种合适的，并补充完整pfd，返回像素id
+	SetPixelFormat(dc, pixelFormat, &pfd);//设置像素格式
+	HGLRC rc = wglCreateContext(dc);//创建opengl的渲染环境
+	wglMakeCurrent(dc, rc);//使opengl的渲染环境生效
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
 	MSG msg;
