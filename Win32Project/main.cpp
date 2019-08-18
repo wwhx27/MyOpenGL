@@ -33,15 +33,23 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		MessageBox(NULL, L"Notice", L"Error", MB_OK);
 		return 0;
 	}
+	RECT rect;
+	rect.left = 0;
+	rect.right = 800;
+	rect.top = 0;
+	rect.bottom = 600;
+	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, NULL);
+	int windowWidth = rect.right - rect.left;
+	int windowHeight = rect.bottom - rect.top;
 	HWND hwnd = CreateWindowEx(NULL, L"GLWindow", L"OpenGL Window", WS_OVERLAPPEDWINDOW,
-		100, 100, 800, 600,
+		100, 100, windowWidth, windowHeight,
 		NULL, NULL, hInstance, NULL);
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
 	MSG msg;
 	while (true)
 	{
-		if (PeekMessage(&msg,NULL,NULL,NULL,PM_REMOVE))
+		if (PeekMessage(&msg,NULL,NULL ,NULL,PM_REMOVE))
 		{
 			if (msg.message == WM_QUIT)
 			{
