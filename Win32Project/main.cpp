@@ -38,5 +38,18 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		NULL, NULL, hInstance, NULL);
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
+	MSG msg;
+	while (true)
+	{
+		if (PeekMessage(&msg,NULL,NULL,NULL,PM_REMOVE))
+		{
+			if (msg.message == WM_QUIT)
+			{
+				break;
+			}
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+	}
 	return 0;
 }
