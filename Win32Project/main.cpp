@@ -1,6 +1,7 @@
-#include <windows.h>
-#include <gl/GL.h>
+#include "ggl.h"
+#include "scene.h"
 #pragma comment(lib, "opengl32.lib")
+#pragma comment(lib, "glew32.lib")
 //创建opengl渲染环境步骤：
 //1.选定像素格式
 //2.创建渲染环境
@@ -64,6 +65,9 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetPixelFormat(dc, pixelFormat, &pfd);//设置像素格式
 	HGLRC rc = wglCreateContext(dc);//创建opengl的渲染环境
 	wglMakeCurrent(dc, rc);//使opengl的渲染环境生效
+	glewInit();
+	Init();
+	SetViewPortSize(800.0f, 600.0f);
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
 	MSG msg;
@@ -78,6 +82,8 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+		Draw();
+		SwapBuffers(dc);
 	}
 	return 0;
 }
