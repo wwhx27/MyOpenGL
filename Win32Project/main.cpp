@@ -1,4 +1,14 @@
 #include <windows.h>
+LRESULT CALLBACK GLWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+	case WM_CLOSE:
+		PostQuitMessage(0);
+		return 0;
+	}
+	return DefWindowProc(hwnd, msg, wParam, lParam);
+}
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -12,7 +22,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	wndclass.hIcon = NULL;
 	wndclass.hIconSm = NULL;
 	wndclass.hInstance = hInstance;
-	wndclass.lpfnWndProc = NULL;
+	wndclass.lpfnWndProc = GLWindowProc;
 	wndclass.lpszClassName = L"GLWindow";
 	wndclass.lpszMenuName = NULL;
 	wndclass.style = CS_VREDRAW | CS_HREDRAW;
