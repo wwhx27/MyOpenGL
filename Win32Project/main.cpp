@@ -33,5 +33,10 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		MessageBox(NULL, L"Notice", L"Error", MB_OK);
 		return 0;
 	}
+	HWND hwnd = CreateWindowEx(NULL, L"GLWindow", L"OpenGL Window", WS_OVERLAPPEDWINDOW,
+		100, 100, 800, 600,
+		NULL, NULL, hInstance, NULL);
+	ShowWindow(hwnd, SW_SHOW);
+	UpdateWindow(hwnd);
 	return 0;
 }
