@@ -3,6 +3,8 @@
 #include "utils.h"
 GLuint vbo;
 GLuint program;
+GLint positionLocation, modelMatrixLocation, viewMatrixLocation, projectionMatrixLocation;
+glm::mat4 modelMatrix, viewMatrix, projectMatrix;
 void Init()
 {
 	float data[] = {
@@ -24,12 +26,20 @@ void Init()
 	program = CreateProgram(vsShader, fsShader);
 	glDeleteShader(vsShader);
 	glDeleteShader(fsShader);
+	positionLocation = glGetAttribLocation(program, "position");
+	modelMatrixLocation = glGetUniformLocation(program, "modelMatrix");
+	viewMatrixLocation = glGetUniformLocation(program, "viewMatrix");
+	projectionMatrixLocation = glGetUniformLocation(program, "projectionMatrix");
 }
 void SetViewPortSize(float width, float height)
 {
-
+	projectMatrix = glm::perspective(60.0f, width / height, 0.1f, 1000.0f);
 }
 void Draw()
 {
-
+	glUseProgram(program);
+	glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projectMatrix));
+	glUseProgram(0);
 }
