@@ -17,3 +17,24 @@ GLuint CompileShader(GLenum shaderType, const char* shaderCode)
 	}
 	return shader;
 }
+GLuint CreateProgram(GLuint vsShader, GLuint fsShader)
+{
+	GLuint program = glCreateProgram();//创建一个程序
+	glAttachShader(program, vsShader);//将编译好的shader绑定到上一步创建的程序上
+	glAttachShader(program, fsShader);
+	glLinkProgram(program);//链接程序
+	glDetachShader(program, vsShader);//链接后将shader从程序上解绑
+	glDetachShader(program, fsShader);
+	GLint nResult;
+	glGetProgramiv(program, GL_LINK_STATUS, &nResult);//获取程序的链接结果
+	if (nResult == GL_FALSE)
+	{
+		char log[1024] = { 0 };
+		GLsizei writed = 0;
+		glGetProgramInfoLog(program, 1024, &writed, log);//获取链接错误日志
+		printf("create gpu program fail, link error: %s\n", log);
+		glDeleteProgram(program);//删除程序
+		program = 0;
+	}
+	return program;
+}
