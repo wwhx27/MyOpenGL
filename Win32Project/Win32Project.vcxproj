@@ -151,6 +151,10 @@
     <ClInclude Include="scene.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\test.fs" />
+    <None Include="Res\test.vs" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

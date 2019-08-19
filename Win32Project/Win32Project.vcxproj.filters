@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Res">
+      <UniqueIdentifier>{14c7d8d8-86b9-4a46-9b12-12f9ecc6cb5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -35,5 +38,13 @@
     <ClInclude Include="utils.h">
       <Filter>头文件</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\test.vs">
+      <Filter>Res</Filter>
+    </None>
+    <None Include="Res\test.fs">
+      <Filter>Res</Filter>
+    </None>
   </ItemGroup>
 </Project>
