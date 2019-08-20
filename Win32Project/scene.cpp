@@ -1,7 +1,7 @@
 #include "scene.h"
 #include "ggl.h"
 #include "utils.h"
-GLuint vbo;
+GLuint vbo,ebo;
 GLuint program;
 GLint positionLocation, modelMatrixLocation, viewMatrixLocation, projectionMatrixLocation;
 glm::mat4 modelMatrix, viewMatrix, projectMatrix;
@@ -16,6 +16,11 @@ void Init()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);//把vbo设置为当前的vbo
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, data, GL_STATIC_DRAW);//操作当前这个GL_ARRAY_BUFFER，在gpu开辟sizeof(float)*12的空间，将data从cpu发送到gpu，把数据data放到显卡上后就不会再修改他了
 	glBindBuffer(GL_ARRAY_BUFFER, 0);//设置当前的GL_ARRAY_BUFFER为零，表示把cpu端的数据删掉
+	unsigned short indexes[] = { 0,1,2 };//按0，1，2的顺序绘制vbo里的点
+	glGenBuffers(1, &ebo);//创建一个ebo
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);//设置当前的element_buffer为ebo
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * 3, indexes, GL_STATIC_DRAW);//将ebo从cpu的内存块传到显卡上去
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	int fileSize = 0;
 	unsigned char* shaderCode = LoadFileContent("Res/test.vs", fileSize);
 	GLuint vsShader = CompileShader(GL_VERTEX_SHADER, (char*)shaderCode);
@@ -57,7 +62,12 @@ void Draw()
 	//这句话在执行的时候，在gpu端，他会遍历vbo中的数据，并分别传入三个不同的shader，这三个shader分别拿到了不同的点，
 	//然后他们的viewMatrix，modelmatrix，projectMatrix是一样的，之后这三个点通过shader会在gpu上不同的三个核心（core）上同时执行
 	//这个函数的目的：告诉gpu如何把vbo中的数据分发到各个不同的shader，让他们去执行
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	//glDrawArrays(GL_TRIANGLES, 0, 3);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	//第二个参数表示画多少个索引数据，也就是ebo里的索引数据用多少个；
+	//第三个参数表示ebo里的数据类型；//第四个参数表示开始位置
+	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glUseProgram(0);
 }
