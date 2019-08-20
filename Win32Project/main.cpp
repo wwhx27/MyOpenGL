@@ -3,6 +3,7 @@
 #include "utils.h"
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glew32.lib")
+#pragma comment(lib, "winmm.lib")
 //创建opengl渲染环境步骤：
 //1.选定像素格式
 //2.创建渲染环境
@@ -27,6 +28,14 @@ unsigned char* LoadFileContent(const char* path, int& filesize)
 		fclose(pFile);
 	}
 	return fileContent;
+}
+float GetFrameTime()
+{
+	static unsigned long lastTime = 0, timeSinceComputerStart = 0;
+	timeSinceComputerStart = timeGetTime();//从按下电源起，到现在的时间，单位是毫秒
+	unsigned long frameTime = lastTime == 0 ? 0 : timeSinceComputerStart - lastTime;
+	lastTime = timeSinceComputerStart;
+	return float(frameTime) / 1000.0f;
 }
 LRESULT CALLBACK GLWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {

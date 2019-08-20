@@ -8,9 +8,9 @@ glm::mat4 modelMatrix, viewMatrix, projectMatrix;
 void Init()
 {
 	float data[] = {
-		-0.2f, -0.2f, -0.6f, 1.0f,
-		0.2f, 0.2f, -0.6f, 1.0f,
-		0.0f, 0.2f, -0.6f, 1.0f
+		-0.2f, -0.2f, 0.0f, 1.0f,
+		0.2f, 0.2f, 0.0f, 1.0f,
+		0.0f, 0.2f, 0.0f, 1.0f
 	};
 	glGenBuffers(1, &vbo);//opengl的驱动将变量vbo的地址改为显存中的地址
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);//把vbo设置为当前的vbo
@@ -30,6 +30,7 @@ void Init()
 	modelMatrixLocation = glGetUniformLocation(program, "ModelMatrix");
 	viewMatrixLocation = glGetUniformLocation(program, "ViewMatrix");
 	projectionMatrixLocation = glGetUniformLocation(program, "ProjectionMatrix");
+	modelMatrix = glm::translate(0.0f, 0.0f, -0.6f);
 }
 void SetViewPortSize(float width, float height)
 {
@@ -37,6 +38,7 @@ void SetViewPortSize(float width, float height)
 }
 void Draw()
 {
+	float frameTime = GetFrameTime();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);//设置擦除背景的颜色
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(program);
