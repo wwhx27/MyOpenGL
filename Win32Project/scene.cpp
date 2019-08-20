@@ -26,10 +26,10 @@ void Init()
 	program = CreateProgram(vsShader, fsShader);
 	glDeleteShader(vsShader);
 	glDeleteShader(fsShader);
-	positionLocation = glGetAttribLocation(program, "position");
-	modelMatrixLocation = glGetUniformLocation(program, "modelMatrix");
-	viewMatrixLocation = glGetUniformLocation(program, "viewMatrix");
-	projectionMatrixLocation = glGetUniformLocation(program, "projectionMatrix");
+	positionLocation = glGetAttribLocation(program, "Position");
+	modelMatrixLocation = glGetUniformLocation(program, "ModelMatrix");
+	viewMatrixLocation = glGetUniformLocation(program, "ViewMatrix");
+	projectionMatrixLocation = glGetUniformLocation(program, "ProjectionMatrix");
 }
 void SetViewPortSize(float width, float height)
 {
