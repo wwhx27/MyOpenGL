@@ -57,3 +57,28 @@ unsigned char* DecodeBMP(unsigned char* bmpFileData, int& width, int& height)
 	}
 	return nullptr;
 }
+
+GLuint CreateTexture2D(unsigned char* pixelData, int width, int height, GLenum type)
+{
+	GLuint texture;
+	glGenTextures(1, &texture);//生成一个纹理对象
+	glBindTexture(GL_TEXTURE_2D, texture);//把刚新建的纹理对象设置为当前纹理对象
+	//下面开始操作这个纹理（1，2，3）
+	//1.设置纹理像素的相关参数
+	//第一个参数：表示操作一个2d纹理；第二个参数：表示当纹理数据被放大时，我们应该采用怎样的算法去采集像素；
+	//第三个参数：设置第二个参数用的算法
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//2.设置纹理坐标相关的参数
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	//3.将纹理数据从内存上传到显存
+	//第二个参数：表示纹理的级别，0时基本级别，级别n是经过n级缩小；opengl会根据多边形，去纹理对象中选择不
+	//同级别的像素数据去为多边形着色。第三个参数：你的纹理数据在显卡是怎样的像素格式。第四个参数：像素数据的宽
+	//第五个参数：像素数据的高。第六个参数：边框宽度，必须写0；第七个参数：纹理数据在内存上是什么格式。
+	//第八个参数：像素数据中每一个分量的类型。//第九个参数：像素数据在内存中的位置，从这个位置把他拷贝到显存上去
+	glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, pixelData);
+	//纹理的操作结束。把当前纹理设置为0号纹理，以免以后的操作修改刚设置好的纹理对象
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return texture;
+}
