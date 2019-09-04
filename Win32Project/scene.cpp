@@ -1,12 +1,14 @@
 #include "scene.h"
 #include "ggl.h"
 #include "utils.h"
+#include "ground.h"
 GLuint vbo,ebo;
 GLuint program;
 GLint positionLocation, modelMatrixLocation, viewMatrixLocation, projectionMatrixLocation, colorLocation;
 GLint texcoordLocation, textureLocation;
 GLuint texture;
 glm::mat4 modelMatrix, viewMatrix, projectMatrix;
+Ground ground;
 void Init()
 {
 	float data[] = {
@@ -42,6 +44,7 @@ void Init()
 	textureLocation = glGetUniformLocation(program, "U_Texture");
 	modelMatrix = glm::translate(0.0f, 0.0f, -0.6f);
 	texture = CreateTexture2DFromBMP("Res/niutou.bmp");
+	ground.Init();
 }
 void SetViewPortSize(float width, float height)
 {
@@ -52,6 +55,7 @@ void Draw()
 	float frameTime = GetFrameTime();
 	glClearColor(0.1f, 0.4f, 0.6f, 1.0f);//ÉèÖÃ²Á³ý±³¾°µÄÑÕÉ«
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 	ground.Draw(viewMatrix, projectMatrix);
 	glUseProgram(program);
 	glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(viewMatrix));

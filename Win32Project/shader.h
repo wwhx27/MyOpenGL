@@ -1,11 +1,12 @@
 #pragma once
 #include "ggl.h"
-class shader
+class Shader
 {
 public:
 	GLuint mProgram;
 	GLint mModelMatrixLocation, mViewMatrixLocation, mProjectionMatrixLocation;
 	GLint mPositionLocation, mColorLocation, mNormalLocation, mTexcoordLocation;
-	void init(const char* vs, const char* fs);
+	void Init(const char* vs, const char* fs);
+	void Bind(float* M, float* V, float* P);
 };
 

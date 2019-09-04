@@ -8,5 +8,5 @@ varying vec4 V_Color;
 void main()
 {
 	V_Color = color;
-	gl_Position = ProjectionMatrix * ViewMatrix * ProjectionMatrix;
+	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix *  position;
 }
