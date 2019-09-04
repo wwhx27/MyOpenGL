@@ -58,4 +58,20 @@ void Ground::Init()
 	}
 	//mVBO = CreateBufferObject(GL_ARRAY_BUFFER, sizeof(Vertex) * 1600, GL_STATIC_DRAW, vertex);
 	mVBO = CreateBufferObject(GL_ARRAY_BUFFER, sizeof(Vertex)*mVertexBuffer->mVertexCount, GL_STATIC_DRAW, mVertexBuffer->mVertexes);
+	int fileSize = 0;
+	unsigned char* shaderCode = LoadFileContent("Res/ground.vs", fileSize);
+	GLuint vsShader = CompileShader(GL_VERTEX_SHADER, (char*)shaderCode);
+	delete shaderCode;
+	shaderCode = LoadFileContent("Res/ground.fs", fileSize);
+	GLuint fsShader = CompileShader(GL_FRAGMENT_SHADER, (char*)shaderCode);
+	delete shaderCode;
+	mProgram = CreateProgram(vsShader, fsShader);
+	glDeleteShader(vsShader);
+	glDeleteShader(fsShader);
+	mPositionLocation = glGetAttribLocation(mProgram, "position");
+	mColorLocation = glGetAttribLocation(mProgram, "color");
+	mNormalLocation = glGetAttribLocation(mProgram, "normal");
+	mModelMatrixLocation = glGetUniformLocation(mProgram, "ModelMatrix");
+	mViewMatrixLocation = glGetUniformLocation(mProgram, "ViewMatrix");
+	mProjectionMatrixLocation = glGetUniformLocation(mProgram, "ProjectionMatrix");
 }
