@@ -145,6 +145,7 @@
     <ClCompile Include="ground.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="shader.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="vertexBuffer.cpp" />
   </ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="ggl.h" />
     <ClInclude Include="ground.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="shader.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="vertexbuffer.h" />
   </ItemGroup>
