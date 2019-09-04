@@ -82,3 +82,23 @@ GLuint CreateTexture2D(unsigned char* pixelData, int width, int height, GLenum t
 	glBindTexture(GL_TEXTURE_2D, 0);
 	return texture;
 }
+
+GLuint CreateTexture2DFromBMP(const char* bmpPath)
+{
+	int nFileSize = 0;
+	unsigned char *bmpFileContent = LoadFileContent(bmpPath, nFileSize);
+	if (bmpFileContent == nullptr)
+	{
+		return 0;
+	}
+	int bmpWidth = 0, bmpHeight = 0;
+	unsigned char* pixelData = DecodeBMP(bmpFileContent, bmpWidth, bmpHeight);
+	if (bmpWidth == 0)
+	{
+		delete bmpFileContent;
+		return 0;
+	}
+	GLuint texture = CreateTexture2D(pixelData, bmpWidth, bmpHeight, GL_RGB);
+	delete bmpFileContent;
+	return texture;
+}
